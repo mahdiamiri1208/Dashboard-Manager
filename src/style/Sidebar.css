@@ -1,0 +1,20 @@
+.nav-link-custom {
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem 1.5rem;
+    transition: background-color 0.2s ease;
+    color: #212529;
+    text-decoration: none;
+  }
+  
+  .nav-link-custom:hover {
+    background-color:rgb(40, 125, 250);
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .nav-link-custom.active {
+    background-color: #0d6efd;
+    color: white;
+  }
+  

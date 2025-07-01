@@ -1,0 +1,13 @@
+.header {
+    height: 50px;
+    background-color: rgba(13, 35, 62, 0.95);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  
