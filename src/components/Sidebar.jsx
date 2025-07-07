@@ -13,6 +13,8 @@ import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ReportIcon from '@mui/icons-material/Report';
+import EuroIcon from '@mui/icons-material/Euro';
 import { AuthContext } from "../context/AuthContext";
 import "../style/Sidebar.css";
 
@@ -43,7 +45,7 @@ function Sidebar({ isMobile = false, onLinkClick }) {
 
   return (
     <>
-      <Nav className="d-flex flex-column" style={{ height: "100%" }}>
+      <Nav className="d-flex flex-column" style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
         <h5 className="mt-3 text-center fs-4 fw-bold">
           <LogoIcon sx={{ fontSize: 36 }} />
           <br />
@@ -101,10 +103,13 @@ function Sidebar({ isMobile = false, onLinkClick }) {
             </p>
             <div className="d-flex flex-column ms-3">
               <div className="nav-link-custom disabled-link">
-                <TrendingUpIcon /> Sales Report
+                <TrendingUpIcon sx={{ fontSize: 20 }} /> Sales Report
               </div>
               <div className="nav-link-custom disabled-link">
-                <SettingsAccessibilityIcon /> User Activity
+                <SettingsAccessibilityIcon sx={{ fontSize: 20 }} /> User Activity
+              </div>
+              <div className="nav-link-custom disabled-link">
+                <EuroIcon sx={{ fontSize: 20 }} /> Transaction
               </div>
             </div>
           </div>
@@ -122,17 +127,20 @@ function Sidebar({ isMobile = false, onLinkClick }) {
             </p>
             <div className="d-flex flex-column ms-3">
               <div className="nav-link-custom disabled-link">
-                <ManageAccountsIcon /> Profile Settings
+                <ManageAccountsIcon sx={{ fontSize: 20 }} /> Profile Settings
               </div>
               <div className="nav-link-custom disabled-link">
-                <RoomPreferencesIcon /> App Preferences
+                <RoomPreferencesIcon sx={{ fontSize: 20 }} /> App Preferences
+              </div>
+              <div className="nav-link-custom disabled-link">
+                <ReportIcon sx={{ fontSize: 20 }} /> Reports
               </div>
             </div>
           </div>
         </div>
 
         {isLoggedIn && (
-          <div className="p-3">
+          <div className="px-3 py-1">
             <button className="btn btn-danger w-100" onClick={handleLogout}>
               <LogoutIcon className="me-2" />
               Logout
@@ -144,7 +152,7 @@ function Sidebar({ isMobile = false, onLinkClick }) {
           className="text-muted mb-2 "
           style={{ fontSize: 12 }}
         >
-          <p className="d-flex justify-content-center align-items-center ">Powered by&nbsp;<strong> Mahdi Meydan miri</strong>&nbsp;<FavoriteIcon sx={{fontSize: 18, color: "rgba(40, 124, 250, 0.94)"}}/></p>
+          <p className="d-flex justify-content-center align-items-center">Powered by&nbsp;<strong> Mahdi Meydan miri</strong>&nbsp;<FavoriteIcon sx={{fontSize: 18, color: "rgba(40, 124, 250, 0.94)"}}/></p>
         </div>
       </Nav>
     </>

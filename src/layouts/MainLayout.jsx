@@ -11,7 +11,7 @@ function MainLayout({ children }) {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 992);
       if (window.innerWidth >= 992) {
-        setShowMobileSidebar(false);
+        setShowMobileSidebar(false); 
       }
     };
 
