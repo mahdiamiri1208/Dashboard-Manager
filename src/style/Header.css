@@ -1,13 +1,45 @@
 .header {
-    height: 50px;
-    background-color: rgba(13, 35, 62, 0.95);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    padding-left: 20px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  
+  height: 70px;
+  background-color: rgba(13, 35, 62, 0.95);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: start;
+  font-size: 24px;
+  font-weight: bold;
+}
+.search-container{
+  flex: 1;
+  max-width: 650px;
+}
+.search-box-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: width 0.3s ease;
+}
+
+.search-box {
+  flex-grow: 1;
+  height: 32px;
+  border-radius: 10px;
+  padding-left: 2.5rem; /* ← تغییر دادیم از right به left */
+  border: none;
+  outline: none;
+  background-color: #fff;
+  box-shadow: none;
+}
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px; /* ← جایگزین right */
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.search-box:focus {
+  cursor: text;
+}
+

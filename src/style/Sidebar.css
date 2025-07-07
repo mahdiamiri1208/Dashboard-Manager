@@ -1,20 +1,27 @@
 .nav-link-custom {
-    border: none;
-    background-color: transparent;
-    padding: 0.5rem 1.5rem;
-    transition: background-color 0.2s ease;
-    color: #212529;
-    text-decoration: none;
-  }
-  
-  .nav-link-custom:hover {
-    background-color:rgb(40, 125, 250);
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .nav-link-custom.active {
-    background-color: #0d6efd;
-    color: white;
-  }
-  
+  display: flex;
+  gap: 5px;
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.2s ease;
+  color: #212529;
+  text-decoration: none;
+}
+
+.nav-link-custom:hover {
+  background-color: rgba(40, 124, 250, 0.94);
+  color: #fff;
+  cursor: pointer;
+}
+
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.5;
+  color: #999 !important;
+}
+.active-link {
+  background-color:rgba(40, 124, 250, 0.94);
+  color: #fff;
+  font-weight: bold;
+}

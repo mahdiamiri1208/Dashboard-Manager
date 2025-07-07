@@ -1,36 +1,39 @@
-import { useContext, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  useRoutes,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import LoginModal from "./components/LoginModal";
 import { AuthContext } from "./context/AuthContext";
+import Home from "./pages/Home";
+import routes from "./routes";
 
-function App() {
+function AppRoutes() {
+  return useRoutes(routes);
+}
+
+function AppContent() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (isLoggedIn && location.pathname === "/") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isLoggedIn, location.pathname, navigate]);
 
   return (
-    <Router>
-      <MainLayout>
-        {!isLoggedIn ? (
-          <>
-            <p>You must log in to view the information.</p>
-            <button
-              className="btn btn-primary mt-3"
-              onClick={() => setShowLogin(true)}
-            >
-              Login
-            </button>
-          </>
-        ) : (
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<p>Welcome to Dashboard</p>} />
-            <Route path="/users" element={<p>User List (Coming Soon)</p>} />
-            <Route path="/details" element={<p>User Details (Coming Soon)</p>} />
-            {/* می‌تونی روت‌های بیشتری هم اضافه کنی */}
-          </Routes>
-        )}
-      </MainLayout>
+    <MainLayout>
+      {!isLoggedIn ? (
+        <Home onLoginClick={() => setShowLogin(true)} />
+      ) : (
+        <AppRoutes />
+      )}
 
       <LoginModal
         show={showLogin}
@@ -40,8 +43,14 @@ function App() {
           setShowLogin(false);
         }}
       />
-    </Router>
+    </MainLayout>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
