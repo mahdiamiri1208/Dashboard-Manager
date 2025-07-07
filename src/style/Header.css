@@ -12,6 +12,7 @@
 .search-container{
   flex: 1;
   max-width: 650px;
+  margin-left: 20px;
 }
 .search-box-wrapper {
   position: relative;
