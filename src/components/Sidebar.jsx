@@ -7,20 +7,20 @@ import {
   PersonSearchOutlined as DetailIcon,
   SatelliteAltOutlined as LogoIcon,
   LogoutOutlined as LogoutIcon,
+  TrendingUp as TrendingUpIcon,
+  SettingsAccessibility as SettingsAccessibilityIcon,
+  ManageAccounts as ManageAccountsIcon,
+  RoomPreferences as RoomPreferencesIcon,
+  Favorite as FavoriteIcon,
+  Report as ReportIcon,
+  Euro as EuroIcon,
 } from "@mui/icons-material";
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ReportIcon from '@mui/icons-material/Report';
-import EuroIcon from '@mui/icons-material/Euro';
 import { AuthContext } from "../context/AuthContext";
 import "../style/Sidebar.css";
 
 function Sidebar({ isMobile = false, onLinkClick }) {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { token , logout } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout();
@@ -33,7 +33,7 @@ function Sidebar({ isMobile = false, onLinkClick }) {
       to={to}
       onClick={onLinkClick}
       className={({ isActive }) =>
-        `nav-link-custom ${!isLoggedIn ? "disabled-link" : ""} ${
+        `nav-link-custom ${!token  ? "disabled-link" : ""} ${
           isActive ? "active-link" : ""
         }`
       }
@@ -45,14 +45,14 @@ function Sidebar({ isMobile = false, onLinkClick }) {
 
   return (
     <>
-      <Nav className="d-flex flex-column" style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
+      <Nav className="d-block" style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
         <h5 className="mt-3 text-center fs-4 fw-bold">
           <LogoIcon sx={{ fontSize: 36 }} />
           <br />
           Space Omid
           <hr />
         </h5>
-        <div className="d-flex flex-column gap-3 flex-grow-1 px-2">
+        <div className="d-flex flex-column gap-3 flex-grow-1 px-2 mb-5">
           <div>
             <p
               className="ms-2 mb-1"
@@ -139,8 +139,8 @@ function Sidebar({ isMobile = false, onLinkClick }) {
           </div>
         </div>
 
-        {isLoggedIn && (
-          <div className="px-3 py-1">
+        {token  && (
+          <div className="px-3 mb-3">
             <button className="btn btn-danger w-100" onClick={handleLogout}>
               <LogoutIcon className="me-2" />
               Logout

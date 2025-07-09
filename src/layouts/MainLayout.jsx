@@ -5,13 +5,13 @@ import Header from "../components/Header";
 
 function MainLayout({ children }) {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1100);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 992);
-      if (window.innerWidth >= 992) {
-        setShowMobileSidebar(false); 
+      setIsMobile(window.innerWidth < 1100);
+      if (window.innerWidth >= 1100) {
+        setShowMobileSidebar(false);
       }
     };
 
@@ -20,21 +20,34 @@ function MainLayout({ children }) {
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+      }}
+    >
       {!isMobile && (
         <div
           style={{
             width: "260px",
-            backgroundColor: "#f8f9fa",
+            backgroundColor: "#fff",
             overflowY: "auto",
+            boxShadow: "0 0 10px rgba(63, 63, 63, 0.08)",
+            flexShrink: 0,
           }}
-          className="shadow"
         >
           <Sidebar />
         </div>
       )}
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+        }}
+      >
         <Header onMenuClick={() => setShowMobileSidebar(true)} />
 
         <Offcanvas
@@ -43,19 +56,14 @@ function MainLayout({ children }) {
           placement="start"
           style={{ width: 260 }}
         >
-          <Offcanvas.Header className="pb-0" closeButton>
-            <Offcanvas.Title>Menu</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body className="p-0">
-            <Sidebar isMobile onLinkClick={() => setShowMobileSidebar(false)} />
-          </Offcanvas.Body>
         </Offcanvas>
 
         <div
           style={{
             flex: 1,
             padding: "1.5rem",
-            overflowY: "auto",
+            overflow: "auto",
+            minWidth: 0,
           }}
         >
           {children}

@@ -14,15 +14,15 @@ import "../style/Header.css";
 
 function Header({ onMenuClick, setMobileMenuOpen }) {
   const location = useLocation();
-  const { isLoggedIn } = useContext(AuthContext);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+  const { token  } = useContext(AuthContext);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1100);
   const [isVerySmallScreen, setIsVerySmallScreen] = useState(
     window.innerWidth < 576
   );
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 992);
+      setIsMobile(window.innerWidth < 1100);
       setIsVerySmallScreen(window.innerWidth < 576);
     };
     handleResize();
@@ -44,11 +44,11 @@ function Header({ onMenuClick, setMobileMenuOpen }) {
   }, [location.pathname]);
 
   return (
-    <header className="header shadow">
+    <header className="header" style={{ boxShadow: "0 0 15px rgba(45, 45, 45, 0.35)" }}>
       <div className="d-flex align-items-center justify-content-between w-100 h-100 px-3 py-2">
         <div className="d-flex align-items-center gap-2">
           {isMobile && (
-            <MenuIcon onClick={onMenuClick} style={{ cursor: "pointer" }} />
+            <MenuIcon onClick={onMenuClick} style={{ cursor: "pointer", fontSize: 34 }} />
           )}
           <h5 className="m-0 fw-bold">{pageTitle}</h5>
         </div>
@@ -69,7 +69,7 @@ function Header({ onMenuClick, setMobileMenuOpen }) {
             </Form>
           )}
 
-          {isLoggedIn ? (
+          {token  ? (
             <Badge
               badgeContent={3}
               color="error"
@@ -88,7 +88,7 @@ function Header({ onMenuClick, setMobileMenuOpen }) {
             <NotificationsIcon sx={{ fontSize: 30 }} />
           )}
 
-          <Avatar alt="avatar" src={isLoggedIn ? avatarImg : defaultAvatar} />
+          <Avatar alt="avatar" src={token  ? avatarImg : defaultAvatar} />
         </div>
       </div>
     </header>

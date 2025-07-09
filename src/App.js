@@ -16,20 +16,20 @@ function AppRoutes() {
 }
 
 function AppContent() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (isLoggedIn && location.pathname === "/") {
+    if (token && location.pathname === "/") {
       navigate("/dashboard", { replace: true });
     }
-  }, [isLoggedIn, location.pathname, navigate]);
+  }, [token, location.pathname, navigate]);
 
   return (
     <MainLayout>
-      {!isLoggedIn ? (
+      {!token ? (
         <Home onLoginClick={() => setShowLogin(true)} />
       ) : (
         <AppRoutes />
@@ -38,14 +38,11 @@ function AppContent() {
       <LoginModal
         show={showLogin}
         onClose={() => setShowLogin(false)}
-        onLogin={() => {
-          setIsLoggedIn(true);
-          setShowLogin(false);
-        }}
       />
     </MainLayout>
   );
 }
+
 
 export default function App() {
   return (
