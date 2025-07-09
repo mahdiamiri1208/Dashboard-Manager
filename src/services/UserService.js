@@ -42,3 +42,11 @@ export const deleteUser = async (id) => {
     },
   });
 };
+
+export const updateUser = async (id, userData) => {
+  return await axios.put(`https://reqres.in/api/users/${id}`, userData, {
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    },
+  });
+};

@@ -17,9 +17,9 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { getAllUsers } from "../services/UserService";
-import DeleteModal from "./DeleteModal";
-import { deleteUser } from "../services/UserService";
+import DeleteUserModal from "./DeleteUserModal";
+import EditUserModal from "./EditUserModal";
+import { deleteUser, updateUser, getAllUsers } from "../services/UserService";
 
 export default function BasicTable() {
   const [users, setUsers] = useState([]);
@@ -28,9 +28,13 @@ export default function BasicTable() {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
-
+  const [deleteError, setDeleteError] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [editError, setEditError] = useState("");
 
   const fetchUsers = () => {
     setLoading(true);
@@ -51,24 +55,49 @@ export default function BasicTable() {
 
   const handleDeleteConfirm = async () => {
     setDeletingUserId(selectedUser.id);
+    setDeleteError(""); // پاک کردن ارور قبلی
+
     try {
       await deleteUser(selectedUser.id);
       setUsers(users.filter((u) => u.id !== selectedUser.id));
-      console.log(`User ${selectedUser.id} deleted`);
+      setShowDeleteUserModal(false);
     } catch (err) {
       console.error("Delete failed:", err);
+      setDeleteError("Failed to delete user. Please try again.");
     } finally {
       setDeletingUserId(null);
-      setShowDeleteModal(false);
     }
   };
-  
+
+  const handleSaveEdit = async (updatedData) => {
+    setEditLoading(true);
+    setEditError("");
+
+    try {
+      await updateUser(editingUser.id, updatedData);
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === editingUser.id ? { ...u, ...updatedData } : u
+        )
+      );
+      setShowEditModal(false);
+    } catch (error) {
+      console.error("به‌روزرسانی ناموفق بود:", error);
+      setEditError("Failed to update user. Please try again.");
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const handleEdit = (id) => alert(`Edit user ${id}`);
+  const handleEdit = (user) => {
+    console.log(user);
+    setEditingUser(user);
+    setShowEditModal(true);
+  };
 
   const paginatedUsers = users.slice(
     (page - 1) * itemsPerPage,
@@ -128,7 +157,7 @@ export default function BasicTable() {
                 <TableCell align="center">
                   <Tooltip title="Edit user">
                     <IconButton
-                      onClick={() => handleEdit(user.id)}
+                      onClick={() => handleEdit(user)}
                       color="primary"
                     >
                       <EditIcon sx={{ fontSize: { xs: 18, sm: 24 } }} />
@@ -138,7 +167,7 @@ export default function BasicTable() {
                     <IconButton
                       onClick={() => {
                         setSelectedUser(user);
-                        setShowDeleteModal(true);
+                        setShowDeleteUserModal(true);
                       }}
                       color="error"
                     >
@@ -152,6 +181,27 @@ export default function BasicTable() {
         </Table>
       </TableContainer>
 
+      <EditUserModal
+        show={showEditModal}
+        user={editingUser}
+        onClose={() => setShowEditModal(false)}
+        onSave={handleSaveEdit}
+        loading={editLoading}
+        error={editError}
+      />
+
+      <DeleteUserModal
+        show={showDeleteUserModal}
+        user={selectedUser}
+        onClose={() => {
+          setShowDeleteUserModal(false);
+          setDeleteError(""); // پاک کردن ارور هنگام بستن مدال
+        }}
+        onConfirm={handleDeleteConfirm}
+        loading={deletingUserId === selectedUser?.id}
+        error={deleteError}
+      />
+
       <Box display="flex" justifyContent="center" mt={2}>
         <Pagination
           count={totalPages}
@@ -160,13 +210,6 @@ export default function BasicTable() {
           color="primary"
         />
       </Box>
-      <DeleteModal
-        show={showDeleteModal}
-        user={selectedUser}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDeleteConfirm}
-        loading={deletingUserId === selectedUser?.id}
-      />
     </Box>
   );
 }
