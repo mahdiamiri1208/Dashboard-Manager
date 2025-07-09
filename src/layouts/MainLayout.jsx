@@ -56,10 +56,20 @@ function MainLayout({ children }) {
           placement="start"
           style={{ width: 260 }}
         >
+          <Offcanvas.Header className="pb-0" closeButton>
+            <Offcanvas.Title>Menu</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body className="p-0">
+            <Sidebar isMobile onLinkClick={() => setShowMobileSidebar(false)} />
+          </Offcanvas.Body>
         </Offcanvas>
 
         <div
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
             flex: 1,
             padding: "1.5rem",
             overflow: "auto",

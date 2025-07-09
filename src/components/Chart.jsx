@@ -27,7 +27,7 @@ const data = [
 
 export default function Chart() {
   return (
-    <div className="chart">
+    <div className="chart w-100">
       <h4 className="chartTitle">Month user & sales</h4>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart

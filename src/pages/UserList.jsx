@@ -1,8 +1,8 @@
 import React from 'react'
-import Tables from "../components/Tables"
+import TableUserList from "../components/TableUserList"
 
 export default function UserList() {
   return (
-    <Tables />
+    <TableUserList />
   )
 }
