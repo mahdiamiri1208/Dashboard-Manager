@@ -1,0 +1,50 @@
+.features {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.featureItem {
+    flex: 1;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 13px -10px rgba(0, 0, 0, 0.70);
+}
+
+.featureTitle {
+    font-size: 20px;
+}
+
+.featureContainer {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.featureMoney {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.featureRate {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.featureIcon {
+    font-size: 24px;
+    margin-left: 5px;
+    color: green;
+}
+
+.featureIcon.negative {
+    color: red;
+}
+
+.featureSub {
+    font-size: 15px;
+    color: gray;
+}

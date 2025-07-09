@@ -1,7 +1,12 @@
-import React from 'react'
+import Chart from "../components/Chart";
+import Feature from "../components/Feature";
 
 export default function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <>
+      <Feature />
+
+        <Chart />
+    </>
+  );
 }
