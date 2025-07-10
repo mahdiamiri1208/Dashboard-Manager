@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { Modal, Button, Form, Alert, Spinner } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
+import { loginUser } from "../services/UserService";
 import axios from "axios";
 
 function LoginModal({ show, onClose }) {
@@ -13,19 +14,10 @@ function LoginModal({ show, onClose }) {
   const handleLogin = async () => {
     setLoading(true);
     setError("");
-
+  
     try {
-      const res = await axios.post(
-        "https://reqres.in/api/login",
-        { email, password },
-        {
-          headers: {
-            "x-api-key": `reqres-free-v1`,
-          },
-        }
-      );
-
-      login(res.data.token);
+      const token = await loginUser(email, password);
+      login(token);
       onClose();
     } catch (err) {
       setError("Login failed. Please check your credentials.");
@@ -33,6 +25,7 @@ function LoginModal({ show, onClose }) {
       setLoading(false);
     }
   };
+  
 
   return (
     <Modal show={show} onHide={onClose} centered>

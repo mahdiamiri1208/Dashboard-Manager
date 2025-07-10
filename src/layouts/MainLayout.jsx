@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Offcanvas } from "react-bootstrap";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import "../style/MainLayout.css";
 
 function MainLayout({ children }) {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
@@ -9,45 +10,29 @@ function MainLayout({ children }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1100);
-      if (window.innerWidth >= 1100) {
-        setShowMobileSidebar(false);
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 1100);
+        if (window.innerWidth >= 1100) {
+          setShowMobileSidebar(false);
+        }
       }
     };
+
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-      }}
-    >
+    <div className="main-layout">
       {!isMobile && (
-        <div
-          style={{
-            width: "260px",
-            backgroundColor: "#fff",
-            overflowY: "auto",
-            boxShadow: "0 0 10px rgba(63, 63, 63, 0.08)",
-            flexShrink: 0,
-          }}
-        >
+        <div className="main-sidebar">
           <Sidebar />
         </div>
       )}
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minWidth: 0,
-        }}
-      >
+      <div className="main-content">
         <Header onMenuClick={() => setShowMobileSidebar(true)} />
 
         <Offcanvas
@@ -64,20 +49,7 @@ function MainLayout({ children }) {
           </Offcanvas.Body>
         </Offcanvas>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            flex: 1,
-            padding: "1.5rem",
-            overflow: "auto",
-            minWidth: 0,
-          }}
-        >
-          {children}
-        </div>
+        <div className="main-body">{children}</div>
       </div>
     </div>
   );

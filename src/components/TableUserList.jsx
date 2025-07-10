@@ -35,9 +35,12 @@ export default function BasicTable() {
   const [editLoading, setEditLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [editError, setEditError] = useState("");
+  const [fetchError, setFetchError] = useState("");
+
 
   const fetchUsers = () => {
     setLoading(true);
+    setFetchError(""); // reset error
     setUsers([]);
     getAllUsers()
       .then((res) => {
@@ -47,6 +50,7 @@ export default function BasicTable() {
       })
       .catch((err) => {
         console.error("Error getting users:", err);
+        setFetchError("Failed to getting users. Please try again later.");
       })
       .finally(() => {
         setLoading(false);
@@ -55,7 +59,7 @@ export default function BasicTable() {
 
   const handleDeleteConfirm = async () => {
     setDeletingUserId(selectedUser.id);
-    setDeleteError(""); // پاک کردن ارور قبلی
+    setDeleteError("");
 
     try {
       await deleteUser(selectedUser.id);
@@ -82,7 +86,7 @@ export default function BasicTable() {
       );
       setShowEditModal(false);
     } catch (error) {
-      console.error("به‌روزرسانی ناموفق بود:", error);
+      console.error("Update failed:", error);
       setEditError("Failed to update user. Please try again.");
     } finally {
       setEditLoading(false);
@@ -108,6 +112,18 @@ export default function BasicTable() {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" mt={5}>
         <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+  if (fetchError) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" mt={5} flexDirection="column">
+        <Box mb={2} color="error.main" fontSize={16}>
+          {fetchError}
+        </Box>
+        <IconButton onClick={fetchUsers} color="primary">
+          <RefreshIcon />
+        </IconButton>
       </Box>
     );
   }
@@ -205,7 +221,7 @@ export default function BasicTable() {
         user={selectedUser}
         onClose={() => {
           setShowDeleteUserModal(false);
-          setDeleteError(""); // پاک کردن ارور هنگام بستن مدال
+          setDeleteError("");
         }}
         onConfirm={handleDeleteConfirm}
         loading={deletingUserId === selectedUser?.id}

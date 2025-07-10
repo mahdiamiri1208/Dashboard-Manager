@@ -15,6 +15,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { getAllUsers } from "../services/UserService";
 import { useNavigate } from "react-router-dom";
 
@@ -25,16 +26,21 @@ export default function UserListTable({ onSelectUser }) {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
 
   const fetchUsers = () => {
     setLoading(true);
+    setFetchError("");
     getAllUsers()
       .then((res) => {
         setUsers(res.users);
         setItemsPerPage(res.perPage);
         setTotalPages(Math.ceil(res.users.length / res.perPage));
       })
-      .catch((err) => console.error("Error fetching users:", err))
+      .catch((err) => {
+        console.error("Error fetching users:", err);
+        setFetchError("Failed to fetch users. Please try again later.");
+      })
       .finally(() => setLoading(false));
   };
 
@@ -55,13 +61,33 @@ export default function UserListTable({ onSelectUser }) {
     );
   }
 
+  if (fetchError) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        mt={5}
+        gap={2}
+      >
+        <Box sx={{ color: "error.main", fontSize: 16 }}>{fetchError}</Box>
+        <Tooltip title="Try again">
+          <IconButton onClick={fetchUsers} color="primary">
+            <RefreshIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: "70%" }}>
       <TableContainer
         component={Paper}
         sx={{
           width: "100%",
-          overflowX: "auto", // اسکرول فقط زمانی که لازم بود
+          overflowX: "auto",
           mt: 2,
         }}
       >
